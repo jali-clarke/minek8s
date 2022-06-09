@@ -1,0 +1,45 @@
+# https://github.com/sol/hpack
+
+name: minek8s
+version: 0.0.0.1
+build-type: Simple
+
+executables:
+  minek8s:
+    main: Main.hs
+    source-dirs:
+    - app
+    dependencies:
+    - base
+    - minek8s
+    ghc-options:
+    - -O2
+    - -Wall
+    - -Werror
+    - -threaded
+
+library:
+  source-dirs:
+  - src
+  dependencies:
+  - base
+  ghc-options:
+  - -O2
+  - -Wall
+  - -Werror
+
+tests:
+  minek8s-tests:
+    main: Spec.hs
+    source-dirs:
+    - test
+    dependencies:
+    - base
+    - minek8s
+    - hspec
+    - QuickCheck
+    ghc-options:
+    - -O2
+    - -Wall
+    - -Werror
+    - -threaded
