@@ -23,6 +23,7 @@ library:
   - src
   dependencies:
   - base
+  - kubernetes-client
   ghc-options:
   - -O2
   - -Wall
@@ -35,6 +36,7 @@ tests:
     - test
     dependencies:
     - base
+    - kubernetes-client-core
     - minek8s
     - hspec
     - QuickCheck

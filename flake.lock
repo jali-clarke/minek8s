@@ -15,6 +15,23 @@
         "type": "github"
       }
     },
+    "kubernetes-client-haskell": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1653859831,
+        "narHash": "sha256-bAYA2YfLTyttccqVgFcQtaHNVKXL62Q8LqczDq390Jw=",
+        "owner": "kubernetes-client",
+        "repo": "haskell",
+        "rev": "f15864a42bf4a62ab6107f78b16396ce60df0fe9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kubernetes-client",
+        "ref": "refs/pull/96/head",
+        "repo": "haskell",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1654694478,
@@ -34,6 +51,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "kubernetes-client-haskell": "kubernetes-client-haskell",
         "nixpkgs": "nixpkgs"
       }
     }
