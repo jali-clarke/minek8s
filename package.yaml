@@ -22,8 +22,10 @@ library:
   source-dirs:
   - src
   dependencies:
+  - aeson
   - base
   - kubernetes-client
+  - text
   ghc-options:
   - -O2
   - -Wall
@@ -35,11 +37,12 @@ tests:
     source-dirs:
     - test
     dependencies:
+    - aeson
     - base
-    - kubernetes-client-core
     - minek8s
     - hspec
     - QuickCheck
+    - text
     ghc-options:
     - -O2
     - -Wall

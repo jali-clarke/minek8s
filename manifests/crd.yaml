@@ -28,7 +28,7 @@ spec:
               nodePortService:
                 type: object
                 properties:
-                  name:
+                  serviceName:
                     type: string
                   nodePort:
                     type: integer
