@@ -25,6 +25,7 @@ library:
   - aeson
   - base
   - kubernetes-client
+  - regex-compat
   - text
   ghc-options:
   - -O2

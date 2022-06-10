@@ -11,7 +11,11 @@ import Control.Monad (when)
 import Data.Aeson ((.:))
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.Types as Aeson
+import Data.Maybe (isNothing)
 import Data.Text (Text)
+import qualified Data.Text as Text
+import Text.Regex (Regex)
+import qualified Text.Regex as Regex
 
 data MinecraftInstance =
   MinecraftInstance
@@ -42,8 +46,9 @@ instance Aeson.FromJSON MinecraftInstance where
       spec <- value .: "spec"
       minecraftVersion' <- spec .: "minecraftVersion"
       nodePortService' <- spec .: "nodePortService"
+      assertMinecraftVersion minecraftVersion' (Regex.mkRegex "^[0-9][0-9]*\\.[0-9][0-9]*\\.[0-9][0-9]*$")
 
-      pure $ MinecraftInstance instanceName' instanceNamespace' minecraftVersion' nodePortService'
+      pure $ MinecraftInstance instanceName' instanceNamespace' (Text.pack minecraftVersion') nodePortService'
 
 instance Aeson.FromJSON NodePortService where
   parseJSON =
@@ -64,3 +69,8 @@ assertKind value expectedKind = do
   kind <- value .: "kind"
   when (kind /= expectedKind) $
     fail ("wrong resource kind: " <> kind)
+
+assertMinecraftVersion :: String -> Regex -> Aeson.Parser ()
+assertMinecraftVersion versionString regex =
+  when (isNothing $ Regex.matchRegex regex versionString) $
+    fail ("invalid minecraft version string: " <> versionString)
