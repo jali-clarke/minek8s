@@ -14,8 +14,8 @@
           # https://gitlab.haskell.org/ghc/ghc/-/issues/20369
           skipCheckIfM1 = pkg:
             if final.system == "aarch64-darwin"
-              then final.haskell.lib.dontCheck pkg
-              else pkg;
+            then final.haskell.lib.dontCheck pkg
+            else pkg;
 
           overrides = haskellSelf: haskellSuper: {
             # builds just fine, not sure why hydra disagrees
@@ -33,7 +33,7 @@
               skipCheckIfM1 (
                 haskellSelf.callCabal2nixWithOptions "kubernetes-client-core" kubernetes-client-haskell "--subpath=kubernetes" { }
               );
-            
+
             minek8s = haskellSelf.callCabal2nix "minek8s" ./. { };
           };
         in

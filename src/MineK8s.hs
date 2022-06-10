@@ -17,20 +17,18 @@ import qualified Data.Text as Text
 import Text.Regex (Regex)
 import qualified Text.Regex as Regex
 
-data MinecraftInstance =
-  MinecraftInstance
-    { instanceName :: Text,
-      instanceNamespace :: Text,
-      minecraftVersion :: Text,
-      nodePortService :: NodePortService
-    }
+data MinecraftInstance = MinecraftInstance
+  { instanceName :: Text,
+    instanceNamespace :: Text,
+    minecraftVersion :: Text,
+    nodePortService :: NodePortService
+  }
   deriving (Eq, Show)
 
-data NodePortService =
-  NodePortService
-    { serviceName :: Text,
-      nodePort :: Int
-    }
+data NodePortService = NodePortService
+  { serviceName :: Text,
+    nodePort :: Int
+  }
   deriving (Eq, Show)
 
 instance Aeson.FromJSON MinecraftInstance where
