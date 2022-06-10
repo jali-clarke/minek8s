@@ -7,6 +7,7 @@ module MineK8s
   )
 where
 
+import Control.Monad (when)
 import Data.Aeson ((.:))
 import qualified Data.Aeson as Aeson
 import qualified Data.Aeson.Types as Aeson
@@ -31,6 +32,9 @@ data NodePortService =
 instance Aeson.FromJSON MinecraftInstance where
   parseJSON =
     Aeson.withObject "MinecraftInstance" $ \value -> do
+      apiVersion <- value .: "apiVersion"
+      when (apiVersion /= "jali-clarke.ca/v1") $
+        fail ("wrong api version: " <> apiVersion)
       metadataAeson <- value .: "metadata"
       specAeson <- value .: "spec"
       flip (Aeson.withObject "MinecraftInstance.metadata") metadataAeson $ \metadata -> do

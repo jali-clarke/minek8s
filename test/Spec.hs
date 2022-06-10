@@ -53,3 +53,28 @@ main = hspec $ do
                     }
               }
         in minecraftInstanceFromCustomResourceAeson crdInstance `shouldBe` Right minecraftInstance
+    it "fails when apiVersion is incorrect" $
+      let
+        crdInstance =
+          Aeson.object
+            [ ("apiVersion", Aeson.String "egg.mc.muffin/v2"),
+              ("kind", Aeson.String "MinecraftInstance"),
+              ("metadata",
+                Aeson.object
+                  [ ("name", Aeson.String "some-name"),
+                    ("namespace", Aeson.String "some-namespace")
+                  ]
+              ),
+              ("spec",
+                Aeson.object
+                  [ ("minecraftVersion", Aeson.String "1.2.3"),
+                    ("nodePortService",
+                      Aeson.object
+                        [ ("serviceName", Aeson.String "some-service-name"),
+                          ("nodePort", Aeson.Number 25565)
+                        ]
+                    )
+                  ]
+              )
+            ]
+      in minecraftInstanceFromCustomResourceAeson crdInstance `shouldBe` Left "Error in $: wrong api version: egg.mc.muffin/v2"
