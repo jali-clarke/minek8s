@@ -35,6 +35,7 @@ spec:
 * implement everything described in the previous section
 * deployment method for everything described in the previous section, including documentation for deployment
 * minecraft server proxy to allow for spin up / shutdown of minecraft server pods via `StatefulSet` based on number of players connected
+* be more flexible in `Service` type.  what if we want a `LoadBalancer` type service?
 
 ## nice-to-haves
 
