@@ -32,22 +32,18 @@ data NodePortService =
 instance Aeson.FromJSON MinecraftInstance where
   parseJSON =
     Aeson.withObject "MinecraftInstance" $ \value -> do
-      apiVersion <- value .: "apiVersion"
-      when (apiVersion /= "jali-clarke.ca/v1") $
-        fail ("wrong api version: " <> apiVersion)
-      kind <- value .: "kind"
-      when (kind /= "MinecraftInstance") $
-        fail ("wrong resource kind: " <> kind)
-      metadataAeson <- value .: "metadata"
-      specAeson <- value .: "spec"
-      flip (Aeson.withObject "MinecraftInstance.metadata") metadataAeson $ \metadata -> do
-        instanceName' <- metadata .: "name"
-        instanceNamespace' <- metadata .: "namespace"
-        flip (Aeson.withObject "MinecraftInstance.spec") specAeson $ \spec -> do
-          minecraftVersion' <- spec .: "minecraftVersion"
-          nodePortServiceAeson <- spec .: "nodePortService"
-          nodePortService' <- Aeson.parseJSON nodePortServiceAeson
-          pure $ MinecraftInstance instanceName' instanceNamespace' minecraftVersion' nodePortService'
+      assertApiVersion value "jali-clarke.ca/v1"
+      assertKind value "MinecraftInstance"
+
+      metadata <- value .: "metadata"
+      instanceName' <- metadata .: "name"
+      instanceNamespace' <- metadata .: "namespace"
+
+      spec <- value .: "spec"
+      minecraftVersion' <- spec .: "minecraftVersion"
+      nodePortService' <- spec .: "nodePortService"
+
+      pure $ MinecraftInstance instanceName' instanceNamespace' minecraftVersion' nodePortService'
 
 instance Aeson.FromJSON NodePortService where
   parseJSON =
@@ -56,3 +52,15 @@ instance Aeson.FromJSON NodePortService where
 
 minecraftInstanceFromCustomResourceAeson :: Aeson.Value -> Either String MinecraftInstance
 minecraftInstanceFromCustomResourceAeson = Aeson.parseEither Aeson.parseJSON
+
+assertApiVersion :: Aeson.Object -> String -> Aeson.Parser ()
+assertApiVersion value expectedApiVersion = do
+  apiVersion <- value .: "apiVersion"
+  when (apiVersion /= expectedApiVersion) $
+    fail ("wrong api version: " <> apiVersion)
+
+assertKind :: Aeson.Object -> String -> Aeson.Parser ()
+assertKind value expectedKind = do
+  kind <- value .: "kind"
+  when (kind /= expectedKind) $
+    fail ("wrong resource kind: " <> kind)
