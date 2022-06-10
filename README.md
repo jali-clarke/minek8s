@@ -35,3 +35,10 @@ spec:
 * implement everything described in the previous section
 * deployment method for everything described in the previous section, including documentation for deployment
 * minecraft server proxy to allow for spin up / shutdown of minecraft server pods via `StatefulSet` based on number of players connected
+
+## nice-to-haves
+
+* allow multiple operators in the same cluster.  this can take the any / all / none of the following forms:
+  * namespaced operator installation
+  * operators manage resources based on label or annotation
+  * some third option?
