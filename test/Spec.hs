@@ -78,3 +78,28 @@ main = hspec $ do
               )
             ]
       in minecraftInstanceFromCustomResourceAeson crdInstance `shouldBe` Left "Error in $: wrong api version: egg.mc.muffin/v2"
+    it "fails when kind is incorrect" $
+      let
+        crdInstance =
+          Aeson.object
+            [ ("apiVersion", Aeson.String "jali-clarke.ca/v1"),
+              ("kind", Aeson.String "Pod"),
+              ("metadata",
+                Aeson.object
+                  [ ("name", Aeson.String "some-name"),
+                    ("namespace", Aeson.String "some-namespace")
+                  ]
+              ),
+              ("spec",
+                Aeson.object
+                  [ ("minecraftVersion", Aeson.String "1.2.3"),
+                    ("nodePortService",
+                      Aeson.object
+                        [ ("serviceName", Aeson.String "some-service-name"),
+                          ("nodePort", Aeson.Number 25565)
+                        ]
+                    )
+                  ]
+              )
+            ]
+      in minecraftInstanceFromCustomResourceAeson crdInstance `shouldBe` Left "Error in $: wrong resource kind: Pod"

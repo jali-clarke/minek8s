@@ -35,6 +35,9 @@ instance Aeson.FromJSON MinecraftInstance where
       apiVersion <- value .: "apiVersion"
       when (apiVersion /= "jali-clarke.ca/v1") $
         fail ("wrong api version: " <> apiVersion)
+      kind <- value .: "kind"
+      when (kind /= "MinecraftInstance") $
+        fail ("wrong resource kind: " <> kind)
       metadataAeson <- value .: "metadata"
       specAeson <- value .: "spec"
       flip (Aeson.withObject "MinecraftInstance.metadata") metadataAeson $ \metadata -> do
